@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+      "module": "amd",
+      "noImplicitAny": true,
+      "removeComments": true,
+      "preserveConstEnums": true,
+      "sourceMap": true,
+      "target": "ES5",
+      "rootDir": ".",
+      "outDir": ".bin",
+      "outFile": "./dest/js/app.js"
+  },
+  "files": [
+    "app/app.ts",
+    "app/app.services.ts",
+    "app/app.controllers.ts"
+  ],
+  "exclude": [
+    "bower_components"
+  ]
+}
