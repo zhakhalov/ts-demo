@@ -1,7 +1,9 @@
 html(ng-app="app")
   head
+    script(type="text/javascript", src="/bower_components/lodash/lodash.js")
     script(type="text/javascript", src="/bower_components/angular/angular.js")
+    script(type="text/javascript", src="/bower_components/ngstorage/ngStorage.js")
     script(type="text/javascript", src="/dest/js/app.js")
   body
-    section(ng-controller="AppCtrl as ctrl")
-      | {{name}}
+    section(ng-controller="app.TodoListCtrl as ctrl")
+      section(ng-repeat="todo in todos")

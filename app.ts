@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as indexRouter from './routes/index-route';
 
-var app = express();
+var app:express.Express = express();
 
 app.use(express.static('public'));
 app.use(indexRouter);

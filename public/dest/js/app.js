@@ -1,42 +1,102 @@
 /// <reference path="../../typings/tsd.d.ts" />
 var Startup = (function () {
     function Startup() {
-        console.log('Startup------->');
     }
     Startup.$inject = [];
     return Startup;
 })();
-var app = angular.module('app', [])
-    .run(Startup);
-/// <reference path="../../typings/tsd.d.ts" />
-var AppService = (function () {
-    function AppService($http) {
-        this.$http = $http;
+var Application = (function () {
+    function Application() {
     }
-    AppService.prototype.fetchVectors = function () {
-        return this.$http.get("/api/vectors/")
-            .success(function (vectors) {
-            return _(vectors)
-                .filter(function (vector) { return vector.x > 10; })
-                .map(function (vector) { return vector; })
-                .value();
+    Application.start = function () {
+        Application.context = angular.module('app', Application.$inject)
+            .run(Startup);
+    };
+    Application.$inject = [
+        'ngStorage'
+    ];
+    return Application;
+})();
+Application.start();
+var TodoService = (function () {
+    function TodoService($q, $localStorage) {
+        this.$q = $q;
+        this.$localStorage = $localStorage;
+    }
+    Object.defineProperty(TodoService.prototype, "todos", {
+        get: function () {
+            this.$localStorage.todos = this.$localStorage.todos || [];
+            return this.$localStorage.todos;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    TodoService.prototype.findTodos = function (criteria) {
+        var _this = this;
+        return this.$q(function (resolve) {
+            return _(_this.todos).filter(criteria).value();
         });
     };
-    AppService.$inject = ['$http'];
-    return AppService;
-})();
-app.service('app.AppService', AppService);
-/// <reference path="../../typings/tsd.d.ts" />
-var AppCtrl = (function () {
-    function AppCtrl($scope) {
-        this.$scope = $scope;
-        this.$scope.name = 'hello';
-    }
-    AppCtrl.prototype.click = function () {
-        this.$scope.name = 'world';
+    TodoService.prototype.addTodo = function (title) {
+        var _this = this;
+        return this.$q(function (resolve) {
+            var last = _(_this.todos).max('id');
+            var todo = {
+                id: last ? last.id : 1,
+                title: title,
+                createdAt: new Date(),
+            };
+            _this.todos.push(todo);
+            resolve(todo);
+        });
     };
-    AppCtrl.$inject = ['$scope'];
-    return AppCtrl;
+    TodoService.prototype.resolveTodo = function (todo) {
+        var _this = this;
+        return this.$q(function (resolve, reject) {
+            var found = _(_this.todos).find(function (t) { return t.id === todo.id; });
+            if (found) {
+                found.isResolved = true;
+                todo.isResolved = true;
+                found.resolvedAt = new Date();
+                todo.resolvedAt = new Date();
+                resolve(todo);
+            }
+            else {
+                reject();
+            }
+        });
+    };
+    TodoService.$inject = ['$q', '$localStorage'];
+    return TodoService;
 })();
-app.controller('AppCtrl', AppCtrl);
+Application.context.service('app.TodoService', TodoService);
+var TodoListCtrl = (function () {
+    function TodoListCtrl($scope, toDoService) {
+        var _this = this;
+        this.$scope = $scope;
+        this.toDoService = toDoService;
+        this.toDoService.findTodos({})
+            .then(function (todos) { return _this.$scope.todos = todos; });
+    }
+    TodoListCtrl.prototype.addTask = function (title) {
+        var _this = this;
+        this.toDoService.addTodo(title)
+            .then(function (todo) { return _this.$scope.todos.push(todo); });
+    };
+    TodoListCtrl.$inject = ['$scope', 'app.TodoService'];
+    return TodoListCtrl;
+})();
+var TodoCtrl = (function () {
+    function TodoCtrl($scope, toDoService) {
+        this.$scope = $scope;
+        this.toDoService = toDoService;
+    }
+    TodoCtrl.prototype.resolve = function () {
+        this.toDoService.resolveTodo(this.$scope.todo);
+    };
+    TodoCtrl.$inject = ['$scope', 'app.TodoService'];
+    return TodoCtrl;
+})();
+Application.context.controller('app.TodoListCtrl', TodoListCtrl);
+Application.context.controller('app.TodoCtrl', TodoCtrl);
 //# sourceMappingURL=app.js.map
