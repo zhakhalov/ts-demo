@@ -1,15 +1,10 @@
-@lesshat: "../../bower_components/lesshat/build/lesshat.less";
+@import "_variables.less";
+@import "_imports.less";
 
-@import "_variables";
-@import "@{lesshat}";
+@import "aside.less";
 
 #header {
   background-color: @header-color;
-}
-
-#aside {
-  background-color: @aside-color;
-  .border-radius(5px);
 }
 
 #main {

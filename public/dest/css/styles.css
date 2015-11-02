@@ -1,5 +1,5 @@
-#header {
-  background-color: #cccccc;
+script {
+  display: none;
 }
 #aside {
   background-color: #333333;
@@ -10,7 +10,10 @@
   border-radius: 5px;
   background-clip: padding-box;
 }
-#main {
-  background-color: #111112;
+#header {
+  background-color: #cccccc;
 }
-/*# sourceMappingURL=public/dest/css/styles.css.map */
+#main {
+  background-color: #111111;
+}
+/*# sourceMappingURL=/dest/css/styles.css.map */

@@ -26,8 +26,11 @@ grunt.initConfig({
   less: {
     dest: {
       options: {
-        path: ['public/stylesheets/less'],
+        paths: ['public/stylesheets/less'],
         sourceMap: true,
+        sourceMapBasepath: 'public',
+        sourceMapRootpath: '/',
+        sourceMapURL: '/dest/css/styles.css.map'
       },
       modifyVars: {
         '@lesshat': path.join(process.cwd(), 'public/bower_components/lesshat/build/lesshat.less')
