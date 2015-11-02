@@ -1,4 +1,5 @@
 var grunt = require('grunt');
+var path = require('path');
 
 grunt.initConfig({
   concat: {
@@ -22,10 +23,28 @@ grunt.initConfig({
       }
     }
   },
+  less: {
+    dest: {
+      options: {
+        path: ['public/stylesheets/less'],
+        sourceMap: true,
+      },
+      modifyVars: {
+        '@lesshat': path.join(process.cwd(), 'public/bower_components/lesshat/build/lesshat.less')
+      },
+      files: {
+        'public/dest/css/styles.css': 'public/stylesheets/less/styles.less'
+      }  
+    }
+  },
   watch: {
     scss: {
       files: 'public/stylesheets/scss/**/*.scss',
       tasks: ['compass:dest']
+    },
+    less: {
+      files: 'public/stylesheets/less/**/*.less',
+      tasks: ['less:dest']
     },
     gss: {
       files: 'public/stylesheets/gss/**/*.gss',
@@ -38,3 +57,4 @@ grunt.loadNpmTasks('grunt-ts');
 grunt.loadNpmTasks('grunt-contrib-concat');
 grunt.loadNpmTasks('grunt-contrib-watch');
 grunt.loadNpmTasks('grunt-contrib-compass');
+grunt.loadNpmTasks('grunt-contrib-less');
