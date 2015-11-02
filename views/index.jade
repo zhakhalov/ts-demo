@@ -1,9 +1,18 @@
 html(ng-app="app")
   head
+    link(rel="stylesheet", type="text/css", href="/dest/css/styles.css")
+    link(rel="stylesheet", type="text/gss", href="/dest/gss/layout.gss")
+    
+    script(type="text/javascript", src="https://s3-us-west-2.amazonaws.com/cdn.thegrid.io/gss/v2.0.0/v2.0.0/gss.js")
     script(type="text/javascript", src="/bower_components/lodash/lodash.js")
     script(type="text/javascript", src="/bower_components/angular/angular.js")
     script(type="text/javascript", src="/bower_components/ngstorage/ngStorage.js")
+    
     script(type="text/javascript", src="/dest/js/app.js")
+    
+    script
+      | window.engine = new GSS(document);
   body
-    section(ng-controller="app.TodoListCtrl as ctrl")
-      section(ng-repeat="todo in todos")
+    header#header
+    aside#aside
+    article#main

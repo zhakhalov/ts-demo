@@ -10,10 +10,8 @@
       "outDir": ".bin",
       "outFile": "./dest/js/app.js"
   },
-  "files": [
-    "app/app.ts",
-    "app/app.services.ts",
-    "app/app.controllers.ts"
+  "filesGlob": [
+    "app/**/*.ts"
   ],
   "exclude": [
     "bower_components"

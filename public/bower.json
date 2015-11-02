@@ -18,6 +18,7 @@
     "bootstrap": "~3.3.5",
     "jquery": "~2.1.4",
     "lodash": "~3.10.1",
-    "ngstorage": "~0.3.9"
+    "ngstorage": "~0.3.9",
+    "gss": "~2.0.0"
   }
 }

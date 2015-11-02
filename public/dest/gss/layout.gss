@@ -1,0 +1,22 @@
+body {
+  margin: 0;
+}
+
+gap == 15;
+
+#header[top] == gap;
+#header[left] == gap;
+#header[width] == ::window[width] - 2 * gap;
+
+#header[height] == 80;
+#aside[top] == #header[bottom] + gap;
+
+#aside[width] == 285;
+#aside[height] == ::window[height] - #aside[top] - gap;
+
+#main[right] == ::window[width];
+::window[width] - gap == #main[width] + #aside[width];
+
+#main[top] == #aside[top];
+#main[bottom] == #aside[bottom];
+ 
